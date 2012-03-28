@@ -24,7 +24,7 @@ module Authlogic
           extend Config
           include InstanceMethods
           before_persisting :reset_stale_state
-          after_persisting :enforce_timeout, :unless => :single_access?
+          after_persisting :enforce_timeout, :unless => Proc.new { single_access? || http_auth? }
           attr_accessor :stale_record
         end
       end
